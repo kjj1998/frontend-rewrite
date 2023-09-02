@@ -1,9 +1,14 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSession, signOut, getSession } from 'next-auth/react'
 
 export default function Navbar() {
-  const token = true
+  const { data: session, status } = useSession()
+
+  function signOutHandler() {
+    signOut()
+  }
 
   return (
     <div className='bg-white fixed top-0 left-0 right-0 border-b-slate-300 border-b w-full flex-none'>
@@ -40,18 +45,19 @@ export default function Navbar() {
                   <li>
                     <Link href='#'>Settings</Link>
                   </li>
+                  {!session && status === 'unauthenticated' && (
+                    <li>
+                      <Link href='/login'>Sign In</Link>
+                    </li>
+                  )}
                   <li>
-                    <Link href='/login'>Sign In</Link>
+                    <Link href='/register'>Sign Up</Link>
                   </li>
-                  {
-                    token ? (<li>
-                      <Link href='/signout'>Sign Out</Link>
-                    </li>)
-                    : 
-                    (<li>
-                      <Link href='/register'>Sign Up</Link>
-                    </li>)
-                  }
+                  {session && (
+                    <li>
+                      <button onClick={signOutHandler}>Sign Out</button>
+                    </li>
+                  )}
                   <li>
                     <Link href='/about'>About</Link>
                   </li>
