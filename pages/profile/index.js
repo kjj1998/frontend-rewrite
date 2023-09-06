@@ -6,7 +6,6 @@ import { decode } from 'next-auth/jwt';
 import { fetchUserData } from '@/lib/fetchUserData.js';
 import { fetchAllFaculties } from '@/lib/fetchModuleData.js';
 
-
 function ProfilePage(props) {
   const { loadedProfile, faculties } = props
   const router = useRouter()
@@ -19,24 +18,6 @@ function ProfilePage(props) {
     })
   }, [router])
 
-  // const loadedProfile = {
-  //   studentId: "U1920099E",
-  //   email: "email@example.com",
-  //   major: null,
-  //   firstName: "John",
-  //   lastName: "Doe",
-  //   yearOfStudy: 2,
-  //   courseCodes: [
-  //     "CC0003",
-  //     "CC0005",
-  //     "MH1810",
-  //     "MH1812",
-  //     "SC1003",
-  //     "SC1005",
-  //     "SC1013"
-  //   ]
-  // }
-
   if (!loadedProfile) {
     return <h1 className='mt-20 font-bold text-lg text-center'>Loading ...</h1>
   }
@@ -48,29 +29,38 @@ function ProfilePage(props) {
 
 export async function getServerSideProps(context) {
 
-  const sessionToken = context.req.cookies['next-auth.session-token'];
+  if (context.req.cookies['next-auth.session-token']) {
+    const sessionToken = context.req.cookies['next-auth.session-token'];
 
-  const decodedSessionToken = await decode({
-    token: sessionToken,
-    secret: process.env.NEXTAUTH_SECRET,
-  });
+    const decodedSessionToken = await decode({
+      token: sessionToken,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
 
 
-  const userId = decodedSessionToken.userId
-  const accessToken = decodedSessionToken.accessToken
+    const userId = decodedSessionToken.userId
+    const accessToken = decodedSessionToken.accessToken
 
-  const student = await fetchUserData(userId, accessToken)
+    const student = await fetchUserData(userId, accessToken)
 
-  if (!student) {
-    return { notFound: true}
-  }
+    if (!student) {
+      return { notFound: true}
+    }
 
-  const faculties = await fetchAllFaculties()
+    const faculties = await fetchAllFaculties()
 
-  return {
-    props: {
-      loadedProfile: student,
-      faculties: faculties
+    return {
+      props: {
+        loadedProfile: student,
+        faculties: faculties
+      }
+    }
+  } else {
+    return {
+      props: {
+        loadedProfile: null,
+        faculties: null
+      }
     }
   }
 }

@@ -51,7 +51,7 @@ export default function Navbar() {
                     </li>
                   )}
                   <li>
-                    <Link href='/register'>Sign Up</Link>
+                    <Link href='/register' className='rounded-lg bg-blue-500 p-2 text-white hover:bg-blue-800'>Sign Up</Link>
                   </li>
                   {session && (
                     <li>
@@ -63,15 +63,6 @@ export default function Navbar() {
                   </li>
                 </ul>
               </nav>
-              {/* <div className='flex items-center border-l border-slate-400 ml-6 pl-6'>
-                  <Image
-                    src='/images/placeholder.jpg'
-                    width={20}
-                    height={20}
-                    alt = "Logo of student2modules"
-                    className='border-b-slate-300 border-b rounded-full'
-                  />
-              </div> */}
             </div>
           </div>
         </div>

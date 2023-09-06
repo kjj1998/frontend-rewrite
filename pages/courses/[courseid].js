@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import Module from '@/components/course/Module'
+import Module from '@/components/modules/Module'
 import Head from 'next/head'
 
 function Course(props) {
@@ -33,8 +33,7 @@ export async function getStaticProps(context) {
   const { params } = context
   const courseId = params.courseid
 
-  const response = 
-    await fetch(`http://localhost:8081/api/v1/modules/${courseId}`)
+  const response = await fetch(`http://localhost:8081/api/v1/modules/${courseId}`)
 
   const data = await response.json()
   const course = data.data
