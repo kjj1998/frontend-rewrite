@@ -3,51 +3,28 @@ import Search from '@/components/layout/Search'
 import ModulesListItem from '@/components/modules/ModulesListItem'
 import { useRouter } from 'next/router'
 import PaginationNavBar from '@/components/layout/PaginationNavBar'
+import { paginate } from '@/lib/utils'
 
-function CoursesPage(props, params) {
+function CoursesPage(props) {
   const { loadedModules } = props
   const router = useRouter()
   const totalNumOfModules = loadedModules && loadedModules.length > 0 ? loadedModules[0].total : 0
   const maxNumOfPages = Math.ceil(totalNumOfModules / 10)
 
   let {current, prev, next, items} = paginate(parseInt(router.query.pagenumber), maxNumOfPages)
-  console.log(items)
-  console.log("next ", next)
-  console.log("prev ", prev)
-  console.log("current ", current)
 
   return (
     <main className="mx-auto max-w-5xl py-1 min-h-screen mt-16">
       <Search />
       <p className='my-2 p-5 text-right border-b border-slate-400 font-semibold'>
-        {totalNumOfModules} courses found
+        {totalNumOfModules} modules found
       </p>
       <ul>
         { loadedModules.map((module) => <ModulesListItem key={module.courseCode} module={module} /> ) }
       </ul>
-      <PaginationNavBar current={current} prev={prev} next={next} items={items} />
+      <PaginationNavBar current={current} prev={prev} next={next} items={items} mode='view'/>
     </main>
   )
-}
-
-function paginate(current, max) {
-  if (!current || !max) return null
-
-  let prev = current === 1 ? null : current - 1,
-      next = current === max ? null : current + 1,
-      items = [1]
-
-  if (current === 1 && max === 1) return {current, prev, next, items}
-  if (current > 4) items.push('…')
-
-  let r = 2, r1 = current - r, r2 = current + r
-
-  for (let i = r1 > 2 ? r1 : 2; i <= Math.min(max, r2); i++) items.push(i)
-
-  if (r2 + 1 < max) items.push('…')
-  if (r2 < max) items.push(max)
-
-  return {current, prev, next, items}
 }
 
 export async function getStaticProps(context) {

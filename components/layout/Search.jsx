@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState('')
+  const router = useRouter()
 
   function onSearch(e) {
     e.preventDefault()
@@ -10,7 +12,7 @@ export default function Search() {
       router.push(`/courses/page/1`)
     } else {
       const encodedSearchQuery = encodeURI(searchTerm)
-      router.push(`/search/${encodedSearchQuery}`)
+      router.push(`/search/${encodedSearchQuery}/1`)
     }
   }
   
