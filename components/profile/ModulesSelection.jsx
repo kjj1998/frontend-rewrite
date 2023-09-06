@@ -11,16 +11,6 @@ export default function ModulesSelection({
         const response = await fetch(`/api/modules/faculty/${faculty}`)
         const data =  await response.json()
 
-        console.log(data.data)
-
-        // let dict = {}
-
-        // data.data.forEach(element => {
-        //   dict[element["courseCode"]] = element["courseName"]
-        // });
-
-        // setFacultyModulesDict(dict)
-
         const courses = data.data.map((course) => course["courseCode"] + " " + course["courseName"])
 
         const modules = [""].concat(courses)

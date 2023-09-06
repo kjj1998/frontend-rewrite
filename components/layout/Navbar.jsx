@@ -27,7 +27,8 @@ export default function Navbar() {
               <nav className='leading-6 font-bold text-slate-700'>
                 <ul className='flex space-x-8'>
                   <li>
-                    <Link 
+                    <Link
+                      className='hover:text-slate-900 text-slate-600 align-middle' 
                       href={{
                         pathname: "/courses/page/[pagenumber]",
                         query: {pagenumber: 1},
@@ -37,30 +38,34 @@ export default function Navbar() {
                     </Link>
                   </li>
                   <li>
-                    <Link href='/recommendations'>Recommendations</Link>
+                    <Link className='hover:text-slate-900 text-slate-600 align-middle' href='/recommendations'>Recommendations</Link>
                   </li>
                   <li>
-                    <Link href='/profile'>Profile</Link>
+                    <Link className='hover:text-slate-900 text-slate-600 align-middle' href='/profile'>Profile</Link>
                   </li>
                   <li>
-                    <Link href='#'>Settings</Link>
+                    <Link className='hover:text-slate-900 text-slate-600 align-middle' href='#'>Settings</Link>
+                  </li>
+                  <li>
+                    <Link className='hover:text-slate-900 text-slate-600 align-middle' href='/about'>About</Link>
                   </li>
                   {!session && status === 'unauthenticated' && (
-                    <li>
-                      <Link href='/login'>Sign In</Link>
-                    </li>
+                    <>
+                      <li>
+                        <Link className='hover:text-slate-900 text-slate-600' href='/login'>Sign In</Link>
+                      </li>
+                      <li>
+                        <Link href='/register' className='rounded-lg bg-blue-500 p-2 text-white hover:bg-blue-800'>Sign Up</Link>
+                      </li>
+                    </>
                   )}
-                  <li>
-                    <Link href='/register' className='rounded-lg bg-blue-500 p-2 text-white hover:bg-blue-800'>Sign Up</Link>
-                  </li>
                   {session && (
                     <li>
-                      <button onClick={signOutHandler}>Sign Out</button>
+                      <button className='hover:bg-blue-800 rounded-lg px-2 py-1 text-white bg-blue-500' onClick={signOutHandler}>
+                        Sign Out
+                      </button>
                     </li>
                   )}
-                  <li>
-                    <Link href='/about'>About</Link>
-                  </li>
                 </ul>
               </nav>
             </div>
