@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import NotificationContext from '@/store/notification-context'
 
 export default function Register() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
+
+  const notificationContext = useContext(NotificationContext)
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -15,6 +18,11 @@ export default function Register() {
     }
 
     try {
+      notificationContext.showNotification({
+        message: 'Registering new user ...',
+        status: 'pending'
+      })
+
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
         body: JSON.stringify(reqBody),
@@ -26,10 +34,19 @@ export default function Register() {
       const result = await response.json()
 
       if (result.code === 400 || result.code === 500) {
-        throw new Error(result.status)
+        throw new Error(result.status, { cause: result.code })
       }
+
+      notificationContext.showNotification({
+        message: result.status,
+        status: result.code
+      })
+
     } catch (error) {
-      console.log(error)
+      notificationContext.showNotification({
+        message: error.message || 'Something went wrong!',
+        status: error.cause
+      })
     } finally {
       setEmail('')
       setPassword('')

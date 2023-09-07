@@ -12,12 +12,12 @@ async function handler(req, res) {
   if (result.http_code === 400) {
     res.status(400).json({
       code: 400, 
-      status: "Username has already been taken!"
+      status: `Username ${req.body.studentId} has already been taken!`
     })
   } else if (result.http_code === 200) {
     res.status(200).json({ 
       code: 200,
-      status: "User created successfully!"
+      status: `User ${req.body.studentId} created successfully!`
     })
   } else {
     res.status(500).json({

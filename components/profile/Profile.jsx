@@ -21,14 +21,13 @@ export default function Profile({ profile, faculties }) {
 
   const notificationContext = useContext(NotificationContext)
   
-  async function submitFormHandler(event) {
+  function submitFormHandler(event) {
     event.preventDefault();
 
-    // notificationContext.showNotification({
-    //   title: "",
-    //   message: "",
-    //   status: ""
-    // })
+    notificationContext.showNotification({
+      message: 'Updating profile ...',
+      status: 'pending'
+    })
 
     const reqBody = {
       studentId: profile.studentId,
@@ -39,21 +38,30 @@ export default function Profile({ profile, faculties }) {
       courseCodes: modulesTaken.map((module) => module.substring(0, 6))
     }
 
-    const response = await fetch('/api/profile', {
+    fetch('/api/profile', {
       method: 'PUT',
       body: JSON.stringify(reqBody),
       headers: {
         'Content-Type': 'application/json',
       }
+    }).then(async (response) => {
+      if (response.ok) {
+        return response.json()
+      }
+
+      const data = await response.json()
+      throw new Error(data.message, { cause: data.status })
+    }).then((data) => {
+      notificationContext.showNotification({
+        message: data.message,
+        status: data.status
+      })
+    }).catch((error) =>  {
+      notificationContext.showNotification({
+        message: error.message,
+        status: error.cause
+      })
     })
-
-    const result = await response.json()
-
-    console.log(result)
-
-    // if successful, show notification here
-
-    // if error, also show notification
   }
 
   return (

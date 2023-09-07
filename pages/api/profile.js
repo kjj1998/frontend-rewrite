@@ -27,8 +27,6 @@ async function handler(req, res) {
 
   const result = await response.json()
 
-  console.log(result)
-
   res.status(result.http_code).json({ 
     status: result.http_code,
     message: result.message 
