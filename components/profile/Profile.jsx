@@ -1,10 +1,9 @@
-import React, { useState, useContext, useEffect, Fragment } from 'react'
-import { Tooltip } from 'flowbite-react'
+import React, { useState, useContext } from 'react'
 import NotificationContext from '@/store/notification-context.js'
-import ModuleTaken from './ModuleTaken'
 import Input from './Input'
 import DropdownInput from './DropdownInput'
 import ModulesSelection from './ModulesSelection'
+import { majors, majorToDiscipline } from '@/store/majors'
 
 export default function Profile({ profile, faculties }) {
   const [firstName, setFirstName] = useState(profile.firstName === null ? "" : profile.firstName)
@@ -16,8 +15,8 @@ export default function Profile({ profile, faculties }) {
   
   const [modulesForFaculty, setModulesForFaculty] = useState([])
   const [faculty, setFaculty] = useState(faculties[0])
-  const [academicYears, setAcademicYears] = useState([1, 2, 3, 4, 5, 6])
-  const [academicMajors, setAcademicMajors] = useState(['Computer Science', 'Mechanical Engineering'])
+  const academicYears = [1, 2, 3, 4, 5, 6]
+  const academicMajors = majors
 
   const notificationContext = useContext(NotificationContext)
   
@@ -34,8 +33,10 @@ export default function Profile({ profile, faculties }) {
       firstName: firstName,
       lastName: lastName,
       email: email,
+      major: major,
       yearOfStudy: yearOfStudy,
-      courseCodes: modulesTaken.map((module) => module.substring(0, 6))
+      courseCodes: modulesTaken.map((module) => module.substring(0, 6)),
+      disciplines: majorToDiscipline[major]
     }
 
     fetch('/api/profile', {
@@ -73,8 +74,8 @@ export default function Profile({ profile, faculties }) {
             <Input title='First Name' value={firstName} setValue={setFirstName} id='firstName'/>
             <Input title='Last Name' value={lastName} setValue={setLastName} id='lastName'/>
             <Input title='Email' value={email} setValue={setEmail} id='email'/>
-            <DropdownInput title='Year of study' id='yearOfStudy' setSelectedOption={setYearOfStudy} options={academicYears}/>
-            <DropdownInput title='Major' id='major' setSelectedOption={setMajor} options={academicMajors}/>
+            <DropdownInput title='Year of study' id='yearOfStudy' setSelectedOption={setYearOfStudy} options={academicYears} value={yearOfStudy}/>
+            <DropdownInput title='Major' id='major' setSelectedOption={setMajor} options={academicMajors} value={major}/>
             <ModulesSelection 
               faculties={faculties} 
               modulesForFaculty={modulesForFaculty} 

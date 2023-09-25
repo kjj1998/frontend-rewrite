@@ -3,10 +3,10 @@ import Link from 'next/link'
 
 export default function Recommendation({ module }) {
   return (
-    <div className='mb-16'>
-      <h2 className='mb-3 text-xl font-semibold text-cyan-600 mt-1 hover:text-cyan-800'>
+    <div className='mb-10'>
+      <h2 className='mb-3 text-xl font-semibold text-blue-600 mt-1 hover:text-blue-800'>
         <Link href={`/courses/${module.courseCode}`}>
-          {module.courseCode} <span className='lowercase'>{module.courseName}</span> (score: {module.score.toPrecision(2)})
+          {module.courseCode} <span className='lowercase'>{module.courseName}</span>
         </Link>
       </h2>
       <p className='text-slate-600 mb-4'>

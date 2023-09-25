@@ -22,16 +22,24 @@ export default function RecommendationsPage(props) {
   }
 
   const displayName = !user ? "" : user.firstName && user.firstName.trim() !== '' ? user.firstName : user.userId
+  const cbfRecommendations = recommendations.cbfRecommendations
+  const cfRecommendations = recommendations.cfRecommendations
 
   return (
     <main className="mx-auto max-w-5xl py-1 min-h-screen mt-16">
-      <h2 className='text-xl my-5 font-semibold'>
-        Hi {displayName}, based on the modules you have taken the following modules are recommended:
-      </h2>
       <div>
-        <ul>
+        <span className='text-2xl semi-bold'>Recommendations based on modules similar students have taken:</span>
+        <ul className='mt-5'>
           <li>
-            { recommendations?.map((recommendation) => <Recommendation key={recommendation.courseCode} module={recommendation} />) }
+            { cfRecommendations.map((recommendation) => <Recommendation key={recommendation.courseCode} module={recommendation} />) }
+          </li>
+        </ul>
+      </div>
+      <div>
+        <span className='text-2xl semi-bold'>Recommendations based on the modules you have taken:</span>
+        <ul className='mt-5'>
+          <li>
+            { cbfRecommendations.map((recommendation) => <Recommendation key={recommendation.courseCode} module={recommendation} />) }
           </li>
         </ul>
       </div>

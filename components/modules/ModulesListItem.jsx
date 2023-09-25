@@ -4,7 +4,7 @@ import Link from 'next/link'
 export default function ModulesListItem({ module }) {
   return (
     <div className='mb-16'>
-      <h2 className='mb-3 text-xl font-semibold text-cyan-600 mt-1'>
+      <h2 className='mb-3 text-xl font-semibold text-blue-600 hover:text-blue-800 mt-1'>
         <Link href={`/courses/${module.courseCode}`}>
           {module.courseCode} <span className='lowercase'>{module.courseName}</span>
         </Link>

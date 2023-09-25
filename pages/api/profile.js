@@ -1,5 +1,3 @@
-import { useSession } from "next-auth/react"
-import { getSession } from 'next-auth/react'
 import { decode } from 'next-auth/jwt';
 
 async function handler(req, res) {
@@ -13,6 +11,8 @@ async function handler(req, res) {
     token: sessionToken,
     secret: process.env.NEXTAUTH_SECRET,
   });
+
+  console.log(updatedProfile)
 
   const accessToken = decodedSessionToken.accessToken
 

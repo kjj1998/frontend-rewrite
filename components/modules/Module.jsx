@@ -6,7 +6,7 @@ export default function Module({ course }) {
       <div className='mx-auto max-w-5xl py-1 min-h-screen mt-16'>
         <header>
           <h1 className='text-3xl font-bold text-slate-400'>
-            <span className='text-neon-blue text-4xl font-extrabold'>{course.courseCode}</span> <br></br>
+            <span className='text-blue-600 text-4xl font-extrabold'>{course.courseCode}</span> <br></br>
             {course.courseName}
           </h1>
         </header>
